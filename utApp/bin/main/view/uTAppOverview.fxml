@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="450.0" prefWidth="1200.0" styleClass="background" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.view.UTAppOverviewController">
+   <children>
+      <SplitPane dividerPositions="0.45" prefHeight="450.0" prefWidth="900.0" stylesheets="@Style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="background" stylesheets="@Style.css">
+               <children>
+                  <TableView fx:id="memberTable" maxWidth="1.7976931348623157E308" stylesheets="@Style.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                     <columns>
+                        <TableColumn fx:id="mainNumberColumn" editable="false" maxWidth="150.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="№ телефону" />
+                        <TableColumn fx:id="mobNumberColumn" editable="false" maxWidth="150.0" minWidth="115.0" prefWidth="115.0" sortable="false" text="№ мобільного" />
+                        <TableColumn fx:id="statusColumn" editable="false" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" sortable="false" text="Статус" />
+                        <TableColumn fx:id="comentColumn" editable="false" minWidth="100.0" prefWidth="100.0" sortable="false" text="Коментар" />
+                        <TableColumn fx:id="nextWorkColumn" editable="false" maxWidth="200.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="Дата наступного опрацювання" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="448.0" prefWidth="520.0" styleClass="background" stylesheets="@Style.css">
+               <children>
+                  <Button fx:id="addMember" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#addMemberMethod" prefHeight="30.0" prefWidth="90.0" text="Додати" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="18.0">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <TextArea fx:id="memberAddDel" layoutX="238.0" prefHeight="65.0" prefWidth="200.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </TextArea>
+                  <Button fx:id="delMember" layoutX="126.0" layoutY="18.0" mnemonicParsing="false" onAction="#delMemberMethod" prefHeight="30.0" prefWidth="90.0" text="Видалити" AnchorPane.leftAnchor="126.0" AnchorPane.topAnchor="18.0">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <TextField fx:id="mainNumberText" layoutX="231.0" layoutY="108.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="108.0" />
+                  <TextField fx:id="mobNumberText" layoutX="231.0" layoutY="175.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="176.0" />
+                  <Separator layoutY="84.0" prefHeight="4.0" prefWidth="431.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <TextField fx:id="comentText" layoutX="231.0" layoutY="312.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="312.0" />
+                  <DatePicker fx:id="nextWorkText" layoutX="231.0" layoutY="374.0" prefHeight="28.0" prefWidth="170.0" AnchorPane.leftAnchor="231.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="374.0" />
+                  <Text layoutX="29.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="№ телефону">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0" startX="0.25120772946859904">
+                           <stops>
+                              <Stop color="#ff6d6d" />
+                              <Stop color="#750202" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill></Text>
+                  <Text layoutX="28.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="№ мобільного">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0" startX="0.25120772946859904">
+                           <stops>
+                              <Stop color="#ff6d6d" />
+                              <Stop color="#750202" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill></Text>
+                  <Text layoutX="28.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Статус">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0" startX="0.25120772946859904">
+                           <stops>
+                              <Stop color="#ff6d6d" />
+                              <Stop color="#750202" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill></Text>
+                  <Text layoutX="28.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Коментар">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0" startX="0.25120772946859904">
+                           <stops>
+                              <Stop color="#ff6d6d" />
+                              <Stop color="#750202" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill></Text>
+                  <Text layoutX="27.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата наступного опрацювання" wrappingWidth="198.625">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0" startX="0.5024154589371981">
+                           <stops>
+                              <Stop color="#ff6d6d" />
+                              <Stop color="#6f0000" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill></Text>
+                  <Button fx:id="workDone" layoutX="295.0" layoutY="406.0" mnemonicParsing="false" onAction="#workDoneMethod" text="Опрацьовано" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="30.0" />
+                  <ChoiceBox fx:id="statusText" layoutX="232.0" layoutY="245.0" prefHeight="28.0" prefWidth="330.0" AnchorPane.leftAnchor="232.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="245.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
