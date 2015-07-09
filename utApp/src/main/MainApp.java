@@ -2,6 +2,11 @@ package main;
 
 import java.io.IOException;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
 import main.model.Member;
 import main.model.SupportClass;
 import main.view.UTAppOverviewController;
@@ -52,20 +57,26 @@ public class MainApp extends Application {
 	}
 
 	@Override
+	public void init() {
+		SupportClass.startSessionFactory();
+	}
+
+	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Заявки");
 		initRootLayout();
 		showUTAppOverview();
 	}
+
 	@Override
-	public void stop(){
-		SupportClass.getSessionFactory().close();
+	public void stop() {
+		SupportClass.stopSessionFactory();
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
-		
+
 	}
 
 	public Stage getPrimaryStage() {
@@ -79,5 +90,4 @@ public class MainApp extends Application {
 	public void setMember(ObservableList<Member> member) {
 		this.member = member;
 	}
-	
 }

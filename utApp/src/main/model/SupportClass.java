@@ -3,12 +3,12 @@ package main.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import main.MainApp;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,7 +20,8 @@ public class SupportClass {
 	private static final String DATE_PATTERN = "dd.MM.yyyy";
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
 			.ofPattern(DATE_PATTERN);
-
+	private static SessionFactory ses;
+	
 	public static String format(LocalDate date) {
 		if (date == null) {
 			return null;
@@ -38,31 +39,33 @@ public class SupportClass {
 		}
 		return null;
 	}
-
-	public static SessionFactory getSessionFactory() {
+	
+	public static void startSessionFactory(){
 		Configuration configuration = new Configuration();
 		configuration.configure();
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
-		SessionFactory sessionFactory = new Configuration().configure()
-				.buildSessionFactory(serviceRegistry);
-		return sessionFactory;
+		ses = new Configuration().configure().buildSessionFactory(
+				serviceRegistry);
 	}
-
+	
+	public static void stopSessionFactory(){
+		ses.close();
+	}
+	
 	public static ObservableList<Member> restoreAllMembers() {
 		ObservableList<Member> list = FXCollections.observableArrayList();
-		Session session = getSessionFactory().openSession();
+		Session session = ses.openSession();
 		session.beginTransaction();
 		// List<SupportMember> supportList = (List<SupportMember>) session
 		// .createSQLQuery("SELECT * FROM supportmember")
 		// .addEntity(SupportMember.class).list();
-		List<SupportMember> supportList = (List<SupportMember>) session
-				.createCriteria(SupportMember.class).list();
+		List<SupportMember> supportList = session.createCriteria(
+				SupportMember.class).list();
 		session.getTransaction().commit();
 		session.close();
 		if (supportList.size() > 0) {
 			for (SupportMember supportMember : supportList) {
-				System.out.println(supportList.size());
 				String mainNumber = new Long(supportMember.getMainNumber())
 						.toString();
 				String mobNumber = new Long(supportMember.getMobNumber())
@@ -97,7 +100,7 @@ public class SupportClass {
 		if (member.getNextWork() != null) {
 			nextWork = member.getNextWork().get();
 		}
-		Session session = getSessionFactory().openSession();
+		Session session = ses.openSession();
 		session.beginTransaction();
 		session.update(new SupportMember(mainNumber, mobNumber, status, coment,
 				nextWork));
@@ -106,7 +109,7 @@ public class SupportClass {
 	}
 
 	public static void deleteMember(List<String> list) {
-		Session session = getSessionFactory().openSession();
+		Session session = ses.openSession();
 		session.beginTransaction();
 		for (String supportString : list) {
 			session.delete(new SupportMember(Long.parseLong(supportString)));
@@ -117,15 +120,11 @@ public class SupportClass {
 
 	public static void saveAllMembers(ObservableList<Member> list) {
 		Iterator<Member> iter = list.iterator();
-		Session session = getSessionFactory().openSession();
+		Session session = ses.openSession();
 		session.beginTransaction();
 		while (iter.hasNext()) {
 			long mainNumber = Long.parseLong(iter.next().getMainNumber().get());
-			// long mobNumber = Long.parseLong(tmp.getMobNumber().get());
-			// String status = tmp.getStatus().get();
-			// String coment = tmp.getComent().get();
-			// String nextWork = tmp.getNextWork().get();
-			session.save(new SupportMember(mainNumber));
+			session.saveOrUpdate(new SupportMember(mainNumber));
 		}
 		session.getTransaction().commit();
 		session.close();
