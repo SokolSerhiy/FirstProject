@@ -110,15 +110,8 @@ public class UTAppOverviewController {
 			if (mainApp.getMember().get(i).getMainNumberAsString()
 					.equals(mainNumberText.getText())) {
 				mainApp.getMember().get(i)
-						.setMobNumber(mobNumberText.getText());
-				mainApp.getMember().get(i).setComent(comentText.getText());
-				mainApp.getMember()
-						.get(i)
-						.setStatus(
-								statusText.getSelectionModel()
-										.getSelectedItem());
-				mainApp.getMember().get(i).setNextWork(nextWorkText.getValue());
-				SupportClass.updateMember(mainApp.getMember().get(i));
+						.setAdditionalData(mobNumberText.getText(), statusText.getSelectionModel()
+								.getSelectedItem(), comentText.getText(), nextWorkText.getValue());
 			}
 		}
 		mobNumberText.setText(null);
@@ -201,7 +194,6 @@ public class UTAppOverviewController {
 					b = true;
 				}
 			}
-			SupportClass.saveAllMembers(mainApp.getMember());
 			memberAddDel.setText(null);
 			this.lockForIncondite();
 			if (b) {

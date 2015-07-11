@@ -2,11 +2,6 @@ package main;
 
 import java.io.IOException;
 
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-
 import main.model.Member;
 import main.model.SupportClass;
 import main.view.UTAppOverviewController;

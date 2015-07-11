@@ -3,12 +3,10 @@ package main.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import main.MainApp;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -21,7 +19,7 @@ public class SupportClass {
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter
 			.ofPattern(DATE_PATTERN);
 	private static SessionFactory ses;
-	
+
 	public static String format(LocalDate date) {
 		if (date == null) {
 			return null;
@@ -39,8 +37,8 @@ public class SupportClass {
 		}
 		return null;
 	}
-	
-	public static void startSessionFactory(){
+
+	public static void startSessionFactory() {
 		Configuration configuration = new Configuration();
 		configuration.configure();
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
@@ -48,18 +46,16 @@ public class SupportClass {
 		ses = new Configuration().configure().buildSessionFactory(
 				serviceRegistry);
 	}
-	
-	public static void stopSessionFactory(){
+
+	public static void stopSessionFactory() {
 		ses.close();
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static ObservableList<Member> restoreAllMembers() {
 		ObservableList<Member> list = FXCollections.observableArrayList();
 		Session session = ses.openSession();
 		session.beginTransaction();
-		// List<SupportMember> supportList = (List<SupportMember>) session
-		// .createSQLQuery("SELECT * FROM supportmember")
-		// .addEntity(SupportMember.class).list();
 		List<SupportMember> supportList = session.createCriteria(
 				SupportMember.class).list();
 		session.getTransaction().commit();
@@ -118,15 +114,12 @@ public class SupportClass {
 		session.close();
 	}
 
-	public static void saveAllMembers(ObservableList<Member> list) {
-		Iterator<Member> iter = list.iterator();
+	public static void saveMember(SupportMember member) {
 		Session session = ses.openSession();
 		session.beginTransaction();
-		while (iter.hasNext()) {
-			long mainNumber = Long.parseLong(iter.next().getMainNumber().get());
-			session.saveOrUpdate(new SupportMember(mainNumber));
-		}
+		session.save(member);
 		session.getTransaction().commit();
 		session.close();
+		
 	}
 }

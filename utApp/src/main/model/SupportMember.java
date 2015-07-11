@@ -71,5 +71,4 @@ public class SupportMember {
 	public void setNextWork(String nextWork) {
 		this.nextWork = nextWork;
 	}
-
 }

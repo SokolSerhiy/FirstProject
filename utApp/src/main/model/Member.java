@@ -1,11 +1,11 @@
 package main.model;
 
-
 import java.time.LocalDate;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Member {
+public class Member{
 
 	private final StringProperty mainNumber;
 	private final StringProperty mobNumber;
@@ -17,7 +17,8 @@ public class Member {
 		this(null);
 	}
 	
-	public Member(String mainNumber, String mobNumber, String status, String coment, String nextWork){
+	public Member(String mainNumber, String mobNumber, String status,
+			String coment, String nextWork) {
 		this.mainNumber = new SimpleStringProperty(mainNumber);
 		this.mobNumber = new SimpleStringProperty(mobNumber);
 		this.status = new SimpleStringProperty(status);
@@ -31,8 +32,24 @@ public class Member {
 		this.status = new SimpleStringProperty();
 		this.coment = new SimpleStringProperty();
 		this.nextWork = new SimpleStringProperty();
+		SupportClass.saveMember(new SupportMember(Long.parseLong(getMainNumberAsString())));
 	}
 
+	public void setAdditionalData(String mobNumber, String status,
+			String coment, LocalDate nextWork) {
+		if (mobNumber != null) {
+			this.mobNumber.set(mobNumber);
+		}
+		if (status != null) {
+			this.status.set(status);
+		}
+		if (coment != null){
+			this.coment.set(coment);
+		}
+		this.nextWork.set(SupportClass.format(nextWork));
+		SupportClass.updateMember(this);
+	}
+	
 	public StringProperty getMainNumber() {
 		return mainNumber;
 	}
