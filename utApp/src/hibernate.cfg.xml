@@ -15,7 +15,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.generate_statistics">false</property>
         
-        <mapping class="main.model.SupportMember"/>
+        <mapping class="main.model.Member"/>
         <event type="pre-insert"/>
     </session-factory>
 </hibernate-configuration>

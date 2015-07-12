@@ -56,70 +56,37 @@ public class SupportClass {
 		ObservableList<Member> list = FXCollections.observableArrayList();
 		Session session = ses.openSession();
 		session.beginTransaction();
-		List<SupportMember> supportList = session.createCriteria(
-				SupportMember.class).list();
+		List<Member> supportList = session.createCriteria(Member.class).list();
 		session.getTransaction().commit();
 		session.close();
 		if (supportList.size() > 0) {
-			for (SupportMember supportMember : supportList) {
-				String mainNumber = new Long(supportMember.getMainNumber())
-						.toString();
-				String mobNumber = new Long(supportMember.getMobNumber())
-						.toString();
-				String status = supportMember.getStatus();
-				String coment = supportMember.getComent();
-				String nextWork = supportMember.getNextWork();
-				list.add(new Member(mainNumber, mobNumber, status, coment,
-						nextWork));
-			}
+			list.addAll(supportList);
 		}
 		return list;
 	}
 
 	public static void updateMember(Member member) {
-		long mainNumber = Long.parseLong(member.getMainNumberAsString());
-		long mobNumber = 0;
-		if (member.getMobNumber() != null) {
-			if (member.getMobNumber().get() != null) {
-				mobNumber = Long.parseLong(member.getMobNumber().get());
-			}
-		}
-		String status = null;
-		if (member.getStatus() != null) {
-			status = member.getStatus().get();
-		}
-		String coment = null;
-		if (member.getComent() != null) {
-			coment = member.getComent().get();
-		}
-		String nextWork = null;
-		if (member.getNextWork() != null) {
-			nextWork = member.getNextWork().get();
-		}
 		Session session = ses.openSession();
 		session.beginTransaction();
-		session.update(new SupportMember(mainNumber, mobNumber, status, coment,
-				nextWork));
+		session.update(member);
 		session.getTransaction().commit();
 		session.close();
 	}
 
-	public static void deleteMember(List<String> list) {
+	public static void deleteMember(Member member) {
 		Session session = ses.openSession();
 		session.beginTransaction();
-		for (String supportString : list) {
-			session.delete(new SupportMember(Long.parseLong(supportString)));
-		}
+			session.delete(member);
 		session.getTransaction().commit();
 		session.close();
 	}
 
-	public static void saveMember(SupportMember member) {
+	public static void saveMember(Member member) {
 		Session session = ses.openSession();
 		session.beginTransaction();
 		session.save(member);
 		session.getTransaction().commit();
 		session.close();
-		
+
 	}
 }

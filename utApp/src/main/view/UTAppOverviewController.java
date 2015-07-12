@@ -64,15 +64,15 @@ public class UTAppOverviewController {
 	@FXML
 	private void initialize() {
 		mainNumberColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.getMainNumber());
+				.asPropertyMainNumber());
 		mobNumberColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.getMobNumber());
+				.asPropertyMobNumber());
 		statusColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.getStatus());
+				.asPropertyStatus());
 		comentColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.getComent());
+				.asPropertyComent());
 		nextWorkColumn.setCellValueFactory(cellData -> cellData.getValue()
-				.getNextWork());
+				.asPropertyNextWork());
 		statusText.setItems(FXCollections.observableArrayList("Нова",
 				"Активна", "Возврат"));
 		statusText.setTooltip(new Tooltip("Виберіть статус заявки"));
@@ -90,14 +90,13 @@ public class UTAppOverviewController {
 						(observable, oldValue, newValue) -> {
 							try {
 								mainNumberText.setText(newValue
-										.getMainNumber().get());
-								mobNumberText.setText(newValue.getMobNumber()
-										.get());
-								comentText.setText(newValue.getComent().get());
+										.asPropertyMainNumber().get());
+								mobNumberText.setText(newValue.getMobNumber());
+								comentText.setText(newValue.getComent());
 								statusText.getSelectionModel().select(
-										newValue.getStatus().get());
+										newValue.getStatus());
 								nextWorkText.setValue(SupportClass
-										.parse(newValue.getNextWork().get()));
+										.parse(newValue.getNextWork()));
 							} catch (NullPointerException e) {
 							}
 						});
@@ -107,11 +106,15 @@ public class UTAppOverviewController {
 	@FXML
 	private void workDoneMethod() {
 		for (int i = 0; i < mainApp.getMember().size(); i++) {
-			if (mainApp.getMember().get(i).getMainNumberAsString()
+			if (mainApp.getMember().get(i).getMainNumber()
 					.equals(mainNumberText.getText())) {
-				mainApp.getMember().get(i)
-						.setAdditionalData(mobNumberText.getText(), statusText.getSelectionModel()
-								.getSelectedItem(), comentText.getText(), nextWorkText.getValue());
+				mainApp.getMember()
+						.get(i)
+						.setAdditionalData(
+								mobNumberText.getText(),
+								statusText.getSelectionModel()
+										.getSelectedItem(),
+								comentText.getText(), nextWorkText.getValue());
 			}
 		}
 		mobNumberText.setText(null);
@@ -127,24 +130,22 @@ public class UTAppOverviewController {
 	private void delMemberMethod() {
 		int n = 0;
 		boolean b = false;
-		List<String> list = new ArrayList<>();
 		memberTable.getSelectionModel().clearSelection();
 		if (memberAddDel.getText() != null) {
 			Pattern pattern = Pattern.compile("[0-9]+");
 			Matcher matcher = pattern.matcher(memberAddDel.getText());
 			while (matcher.find()) {
-				Iterator<Member> it = mainApp.getMember().iterator();
-				while (it.hasNext()) {
-					if (it.next().getMainNumberAsString()
+				for (int i = 0; i <= mainApp.getMember().size(); i++) {
+					if (mainApp.getMember().get(i).getMainNumber()
 							.equals(matcher.group())) {
-						list.add(matcher.group());
-						it.remove();
+						SupportClass.deleteMember(mainApp.getMember().get(i));
+						mainApp.getMember().remove(i);
 						b = true;
 						n++;
+						break;
 					}
 				}
 			}
-			SupportClass.deleteMember(list);
 			memberAddDel.setText(null);
 			this.lockForIncondite();
 
@@ -174,22 +175,19 @@ public class UTAppOverviewController {
 			Matcher matcher = pattern.matcher(memberAddDel.getText());
 			while (matcher.find()) {
 				if (mainApp.getMember().size() == 0) {
-					mainApp.getMember().add(
-							new Member(matcher.group()));
+					mainApp.getMember().add(new Member(matcher.group()));
 					n++;
 					b = true;
 				} else {
 					int j = 0;
 					for (int i = 0; i < mainApp.getMember().size(); i++) {
 						if (!matcher.group().equals(
-								mainApp.getMember().get(i)
-										.getMainNumberAsString())) {
+								mainApp.getMember().get(i).getMainNumber())) {
 							j++;
 						}
 					}
 					if (j == mainApp.getMember().size())
-						mainApp.getMember().add(
-								new Member(matcher.group()));
+						mainApp.getMember().add(new Member(matcher.group()));
 					n++;
 					b = true;
 				}
@@ -218,15 +216,14 @@ public class UTAppOverviewController {
 		boolean d = true;
 		for (int i = 0; i < mainApp.getMember().size(); i++) {
 			if (curentDate.equals(SupportClass.parse(mainApp.getMember().get(i)
-					.getNextWork().get()))) {
+					.getNextWork()))) {
 				mainNumberText.setText(mainApp.getMember().get(i)
-						.getMainNumber().get());
-				mobNumberText.setText(mainApp.getMember().get(i).getMobNumber()
-						.get());
+						.asPropertyMainNumber().get());
+				mobNumberText
+						.setText(mainApp.getMember().get(i).getMobNumber());
 				statusText.getSelectionModel().select(
-						mainApp.getMember().get(i).getStatus().get());
-				comentText
-						.setText(mainApp.getMember().get(i).getComent().get());
+						mainApp.getMember().get(i).getStatus());
+				comentText.setText(mainApp.getMember().get(i).getComent());
 				nextWorkText.setValue(null);
 				b = false;
 				break;
@@ -235,15 +232,15 @@ public class UTAppOverviewController {
 		if (b) {
 			for (int i = 0; i < mainApp.getMember().size(); i++) {
 				try {
-					if (mainApp.getMember().get(i).getComent().get().length() == 0) {
+					if (mainApp.getMember().get(i).getComent().length() == 0) {
 						mainNumberText.setText(mainApp.getMember().get(i)
-								.getMainNumber().get());
+								.asPropertyMainNumber().get());
 
 						d = false;
 					}
 				} catch (NullPointerException e) {
 					mainNumberText.setText(mainApp.getMember().get(i)
-							.getMainNumber().get());
+							.asPropertyMainNumber().get());
 
 					d = false;
 				}
