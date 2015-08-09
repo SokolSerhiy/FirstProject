@@ -27,7 +27,8 @@ import com.forAlim.service.SaveUrlService;
 
 //від себе: чисто з пдф працювати було б легше
 //не потрібно паритись з маймом, він завжди однаковий
-//@PathVariable вважає що після крапки це не те що потрібно повернути, але це не проблема тому що дальше .pdf
+//@PathVariable вважає що після крапки це не те що потрібно повернути,
+//але це не проблема тому що дальше .pdf
 @Controller
 public class SaveUrlController {
 	private String massage = null;
