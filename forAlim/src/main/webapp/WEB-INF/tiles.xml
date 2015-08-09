@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<!-- Опис шаблонної веб сторінки, на якій буде 3 параметри: хедер, футер 
+		і головний контент -->
+	<definition name="base.definition" template="/views/tiles/layout.jsp">
+		<put-attribute name="header" value="/views/tiles/header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/views/tiles/footer.jsp"></put-attribute>
+		<put-attribute name="body" value=""></put-attribute> <!-- Задаєм пустим, значення будуть приходити в наступних defifinition -->
+	</definition>
+	<!-- Назва definition це стрічка, яка приходить з методів контролера -->
+
+	<!-- Зручніший спосіб -->
+	<!-- * = {1} (те, що приходить замість *, записується в {1}, наприклад all -->
+	<definition name="save-url-*" extends="base.definition">
+		<put-attribute name="body" value="/views/save-url-{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="save-url-{1}"></put-attribute>
+	</definition>
+	
+</tiles-definitions>
