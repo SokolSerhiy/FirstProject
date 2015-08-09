@@ -42,65 +42,87 @@ public class SaveUrlController {
 	}
 	//переадресовує на сторінку завантаження
 	//показує всі файли які є на сервері
+	//бере з БД
 	@RequestMapping(value = "/showDownloadPage")
 	public String showDownloadPage(Model model) {
 		List<SaveUrl> list = saveUrlService.getAll();
 		model.addAttribute("allFiles", list);
-		
 		return "save-url-download";
 	}
-	
+	//сторінка завантаження файлів
 	@RequestMapping(value = "/download/{id}")
 	public void doDownload(@PathVariable(value = "id") String id, HttpServletRequest request,
             HttpServletResponse response) throws IOException {
+		//пошук в БД по id назви файлу, id приходить як параметер в метод через анотацію @PathVariable
+		//з jsp яка формується з ссилками де перша частина ссилки завжди download а друга id
 		String fileName = saveUrlService.findById(id).getSavedUrlPath();
+		//створюєм повний шлях до файлу з компонентів:
+		//шлях до серверу + назва папки + назва файлу
 		File downloadFile = new File(System.getProperty("catalina.home")+File.separator+"tmpFiles"+File.separator+fileName);
+		//створюєм вхідний потік данних з файлу (перетворюєм файл на вхідний потік)
 		FileInputStream inputStream = new FileInputStream(downloadFile);
-		ServletContext context = request.getServletContext(); // подивитись сюди
+		//створюєм сервлет контекст для отримання МІМ типу файлу
+		ServletContext context = request.getServletContext();
+		//отримуємо тип файлу, схоже з розширенням але дещо по іншому виглядає :)
 		String mimeType = context.getMimeType(System.getProperty("catalina.home")+File.separator+"tmpFiles"+File.separator+fileName);
+		//якщо не має типу присвоюєм двійковий тип
 		if (mimeType == null) {
             mimeType = "application/octet-stream";
         }
-		// set content attributes for the response
+		//встановлюємо контент для відповіді
+		//тип файлу
 		response.setContentType(mimeType);
+		//повний шлях до файлу
         response.setContentLength((int) downloadFile.length());
-        // set headers for the response
+        //встановлюємо заголовки відповіді
+        //назва
         String headerKey = "Content-Disposition";
+        //значення
         String headerValue = String.format("attachment; filename=\"%s\"",
                 downloadFile.getName());
         response.setHeader(headerKey, headerValue);
-     // get output stream of the response
+        //отримуемо вихідний потік з відповіді
         OutputStream outStream = response.getOutputStream();
- 
+        //створюємо буфер у вигляді 4м-го байтового масиву
         byte[] buffer = new byte[4096];
+        //змінна для роботи циклу
         int bytesRead = -1;
  
-        // write bytes read from the input stream into the output stream
+        //записуємо з буфера юзеру на компютер
         while ((bytesRead = inputStream.read(buffer)) != -1) {
             outStream.write(buffer, 0, bytesRead);
         }
+        //закриваємо всі стріми
         inputStream.close();
         outStream.close();
 	}
-	
+	//upload файла
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("file") MultipartFile file,
-			Model model) {
+	public String uploadFileHandler(@RequestParam("file") MultipartFile file) {
+		//перевірка чи файл не пустий
 		if (!file.isEmpty()) {
 			try {
+				//формуєм масив батів з файла
 				byte[] bytes = file.getBytes();
+				//отримуєм шлях до розташування сервера(томкат в данному прикладі)
 				String rootPath = System.getProperty("catalina.home");
+				//створюєм обєкт файл з шляхом до папки в якій будуть зберігатись файли
 				File dir = new File(rootPath + File.separator + "tmpFiles");
+				//перевірка чи є така папка, якщо ні створюєм
 				if (!dir.exists()) {
 					dir.mkdirs();
 				}
+				//створюєм шлях до файлу
 				File serverFile = new File(dir.getAbsolutePath()
 						+ File.separator + file.getOriginalFilename());
+				//зберігаєм файл за допомогою буферизованого вихідного потоку
 				BufferedOutputStream stream = new BufferedOutputStream(
 						new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
+				//зберігаєм в БД назву файла з розширенням
 				saveUrlService.create(file.getOriginalFilename());
+				//передаєм повідомрення для методу showChoicePage()
 				massage = "You successfully upload file";
 			} catch (Exception e) {
 				massage = "You failed to upload file" + e.getMessage();
@@ -108,6 +130,7 @@ public class SaveUrlController {
 		} else {
 			massage = "You failed to upload file because the file is empty";
 		}
+		//залишаємся на сторінці вибору файлу
 		return "redirect:/showChoisePage";
 	}
 }
