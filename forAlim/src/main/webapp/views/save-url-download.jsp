@@ -8,10 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-	<c:forEach items="${allFiles}" var="file_name">
-        <p><a href="download/${file_name.id}">${file_name.savedUrlPath}</a><p>
-	</c:forEach>
-    
+	<table>
+		<c:forEach items="${allFiles}" var="file">
+		<tr>
+			<td><p>${file.name}</p></td>
+			<td><a href="download/${file.id}">download</a></td>
+			<td><a href="view/${file.id}">view</a></td>
+     	   	<td><a href="delete/${file.id}">delete</a></td>
+		</tr>
+		</c:forEach>
+    </table>
 </body>
 </html>
