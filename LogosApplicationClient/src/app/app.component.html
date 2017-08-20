@@ -1,0 +1,27 @@
+<nav class="navbar sticky-top navbar-toggleable-md navbar-inverse bg-primary justify-content-between">
+  <a class="navbar-brand" routerLink="/">Головна</a>
+    <ul class="navbar-nav">
+
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item" *ngIf="map['program']">
+        <a routerLink="/program" class="nav-link">ПЗ</a>
+      </li>
+      <li class="nav-item" *ngIf="map['game']">
+        <a routerLink="/game" class="nav-link">Стратегія</a>
+      </li>
+      <li class="nav-item" *ngIf="map['profile']">
+        <a routerLink="/profile" class="nav-link">Профіль</a>
+      </li>
+      <li class="nav-item" *ngIf="map['login']">
+        <a routerLink="/login" class="nav-link">Логін</a>
+      </li>
+      <li class="nav-item" *ngIf="map['registration']">
+        <a routerLink="/registration" class="nav-link">Реєстрація</a>
+      </li>
+      <li class="nav-item" *ngIf="map['profile']">
+        <a routerLink="" class="nav-link" (click)="exit()">Вийти</a>
+      </li>
+    </ul>
+</nav>
+<router-outlet></router-outlet>

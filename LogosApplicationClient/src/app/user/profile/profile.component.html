@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <div class="row">
+        <div class="col"><img [src]="user.photoUrl" alt="Фото профілю"></div>
+      </div>
+      <lgs-upload-img (send)="onPhotoSend($event)"></lgs-upload-img>
+      <div class="row">
+        <div class="col">
+          <form novalidate [formGroup]="changePasswordForm" (ngSubmit)="onSubmitPassword(changePasswordForm)">
+            <div class="row form-group">
+              <label class="col-form-label col-4" for="oldPassword">Введіть старий пароль:</label>
+              <div class="col-8">
+                <input type="password" class="form-control" formControlName="oldPassword" id="oldPassword">
+                <div *ngIf="changePasswordFormErrors.oldPassword" class="alert alert-danger">
+                  {{changePasswordFormErrors.oldPassword}}
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <label class="col-form-label col-4" for="password">Введіть новий пароль:</label>
+              <div class="col-8">
+                <input type="password" class="form-control" formControlName="password" id="password">
+                <div *ngIf="changePasswordFormErrors.password" class="alert alert-danger">
+                  {{changePasswordFormErrors.password}}
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <label class="col-form-label col-4" for="rePassword">Введіть новий пароль ще раз:</label>
+              <div class="col-8">
+                <input type="password" class="form-control" formControlName="rePassword" id="rePassword">
+                <div *ngIf="changePasswordFormErrors.rePassword" class="alert alert-danger">
+                  {{changePasswordFormErrors.rePassword}}
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-8 offset-4">
+                <button type="submit" class="btn btn-primary" [disabled]="changePasswordForm.invalid">Змінити</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <div class="col">
+          <form novalidate [formGroup]="addCredentialsForm" (ngSubmit)="onSubmitCredentials(addCredentialsForm)">
+            <div class="row form-group">
+              <label class="col-form-label col-4" for="firstName">Імя:</label>
+              <div class="col-8">
+                <input type="text" class="form-control" formControlName="firstName" id="firstName" name="firstName">
+              </div>
+            </div>
+            <div class="row form-group">
+              <label class="col-form-label col-4" for="lastName">Прізвище:</label>
+              <div class="col-8">
+                <input type="text" class="form-control" formControlName="lastName" id="lastName" name="lastName">
+              </div>
+            </div>
+            <div class="row form-group">
+              <label class="col-form-label col-4" for="email">Електронна скринька:</label>
+              <div class="col-8">
+                <input type="text" class="form-control" formControlName="email" id="email" name="email">
+                <div *ngIf="addCredentialsFormErrors.email" class="alert alert-danger">
+                  {{addCredentialsFormErrors.email}}
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <label class="col-form-label col-4" for="phoneNumber">Номер телефону:</label>
+              <div class="col-8">
+                <input type="text" class="form-control" formControlName="phoneNumber" id="phoneNumber" name="phoneNumber">
+                <div *ngIf="addCredentialsFormErrors.phoneNumber" class="alert alert-danger">
+                  {{addCredentialsFormErrors.phoneNumber}}
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-8 offset-4">
+                <button type="submit" class="btn btn-primary" [disabled]="addCredentialsForm.invalid">Змінити</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

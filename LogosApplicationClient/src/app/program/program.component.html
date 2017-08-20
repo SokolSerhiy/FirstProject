@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <div class="row">
+        <div class="col-12">
+          <input class="form-control" type="text" placeholder="Search" [formControl]="searchControl">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <lgs-page-size [sizes]="[1,5,10]" [size]="size" (change)="changeSize($event)"></lgs-page-size>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+      <form novalidate [formGroup]="programForm" (ngSubmit)="onSubmit(programForm)">
+        <div class="row form-group">
+          <label for="name" class="col-form-label col-2">Назва програми:</label>
+          <div class="col-10">
+            <input type="text" class="form-control" id="name" formControlName="name">
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-10 offset-sm-2">
+            <button type="submit" class="btn btn-primary" [disabled]="programForm.invalid">Save</button>
+          </div>
+        </div>
+      </form>
+      <table class="table table-bordered">
+        <tr>
+          <th>Назва</th>
+          <th>Опції</th>
+        </tr>
+        <tr *ngFor="let item of (data | programSearch: search | slice: ((page-1)*size) : page*size)">
+          <td>{{item.name}}</td>
+          <td>
+            <button class="btn btn-outline-warning btn-sm" (click)="update(item)">Update</button>
+            <button class="btn btn-outline-danger btn-sm" (click)="delete(item)">Delete</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 text-center">
+      <lgs-pageable [page]="page" [size]="size" [totalPages]="totalPages" (change)="changePage($event)"></lgs-pageable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="container">
+  <h2>Registration</h2>
+  <form novalidate [formGroup]="registrationForm" (ngSubmit)="onSubmit(registrationForm)">
+    <div class="row form-group">
+      <label for="email" class="col-form-label col-2">E-mail:</label>
+      <div class="col-10">
+        <input type="text" class="col-10" class="form-control" id="email" formControlName="email">
+        <div *ngIf="formErrors.email" class="alert alert-danger">
+          {{formErrors.email}}
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <label for="password" class="col-form-label col-2">Password:</label>
+      <div class="col-sm-10">
+        <input type="password" class="col-10" class="form-control" id="password" formControlName="password">
+        <div *ngIf="formErrors.password" class="alert alert-danger">
+          {{formErrors.password}}
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <label for="repeatPassword" class="col-form-label col-2">Repeat password:</label>
+      <div class="col-sm-10">
+        <input type="password" class="col-sm-10" class="form-control" id="repeatPassword" formControlName="rePassword">
+        <div *ngIf="formErrors.rePassword" class="alert alert-danger">
+          {{formErrors.rePassword}}
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-sm-10 offset-sm-2">
+        <div class="row">
+          <div class="col">
+            <button type="submit" class="btn btn-primary" [disabled]="registrationForm.invalid">Sing up</button>
+          </div>
+          <div class="col text-right">
+            <a routerLink="/login">Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

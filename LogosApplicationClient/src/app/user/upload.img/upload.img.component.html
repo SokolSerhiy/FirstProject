@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col">
+      <div class="row">
+        <div class="col-6 parent">
+          <img [src]="imgUrl" width="100%" *ngIf="imgUrl" id="img">
+          <div class="mask" [style.width.px]="maskWidth" [style.height.px]="maskHeight"
+               [style.top.px]="top" [style.left.px]="left" *ngIf="imgUrl"
+               (mousemove)="onMove($event)" (mousedown)="onMouseDown($event)"
+               (mouseup)="onMouseUp()" id="draggable"></div>
+        </div>
+        <div class="col-1 column" *ngIf="imgUrl">
+          <button class="btn btn-outline-primary" (mousedown)="addSize()" (mouseup)="stopChangeSize()">+</button>
+          <button class="btn btn-outline-primary" (mousedown)="subtractSize()" (mouseup)="stopChangeSize()">-</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label class="btn btn-primary">Виберіть фото:
+            <input type="file" (change)="readUrl($event)">
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-primary" [disabled]="invalid" (click)="submit()">Змінити</button>
+          <button type="button" class="btn btn-primary" [disabled]="invalid" (click)="cancel()">Відміна</button>
+        </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+input[type=file]{
+  display: none;
+}
+.column{
+  display: flex;
+  flex-direction: column;
+}
+.column>*:first-child{
+  margin-bottom: auto;
+}
+.parent{
+  position: relative;
+}
+.mask{
+  position: absolute;
+  z-index: 1000;
+  background-color: white;
+  opacity: 0.4;
+}
